@@ -1,0 +1,10 @@
+# doocker-compose.dev is just for development stage, running only a firestore emulator conainer
+version: "3.8"
+
+services:
+  firestore:
+    image: google/cloud-sdk:latest
+    container_name: firestore-emulator
+    command: ["gcloud", "emulators", "firestore", "start", "--host-port=0.0.0.0:9999"]
+    ports:
+      - "9999:9999"
