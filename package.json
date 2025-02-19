@@ -4,18 +4,20 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "docker-compose -f docker-compose.dev.yml up -d && next dev --turbopack",
+    "dev:stop": "docker-compose -f docker-compose.dev.yml down",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [
-      "eslint --fix",
+      "next lint --fix",
       "prettier --write"
     ]
   },
   "dependencies": {
+    "@google-cloud/firestore": "^7.11.0",
     "@radix-ui/react-accordion": "^1.2.3",
     "@radix-ui/react-dialog": "^1.1.4",
     "@radix-ui/react-popover": "^1.1.5",
