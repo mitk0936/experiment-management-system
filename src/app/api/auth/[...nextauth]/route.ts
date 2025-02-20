@@ -1,6 +1,6 @@
 import NextAuth, { SessionStrategy } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { FirestoreUserRepository } from "@/core/repositories/FirestoreUserRepository";
+import { FirestoreUserRepository } from "@/core/repositories/User/FirestoreUserRepository";
 import { logError } from "@/core/utils/logger";
 
 const repository = new FirestoreUserRepository();
