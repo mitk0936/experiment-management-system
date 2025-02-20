@@ -13,4 +13,5 @@ export const MESSAGES = {
   PasswordMustBe6OrMoreChars: "Password must be at least 6 characters",
   NameIsRequired: "Name is required",
   NameMustBeAtLeast2Chars: "Name must be at least 2 characters",
+  PasswordsDoNotMatch: "Passwords do not match",
 };
