@@ -76,6 +76,8 @@ export default function SignUpForm() {
         <FormError message={errors.email?.message} />
         <Input {...register("password")} type="password" placeholder="Password" />
         <FormError message={errors.password?.message} />
+        <Input {...register("confirmPassword")} type="password" placeholder="Confirm Password" />
+        <FormError message={errors.confirmPassword?.message} />
         <Button type="submit" className="w-full">
           Sign Up
         </Button>
