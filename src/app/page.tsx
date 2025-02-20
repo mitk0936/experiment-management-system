@@ -1,18 +1,10 @@
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
-import LoginButton from "@/components/login/LoginButton";
+import { PAGE_ROUTES } from "@/presentation/routes/constants";
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
 
-  if (session) {
-    redirect("/dashboard");
-  }
-
-  return (
-    <div className="flex items-center justify-center h-screen">
-      <LoginButton />
-    </div>
-  );
+  return session ? redirect(PAGE_ROUTES.dashboard) : redirect(PAGE_ROUTES.login);
 }

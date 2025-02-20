@@ -24,6 +24,7 @@ export default [
     rules: {
       ...tseslint.configs.recommended.rules,
       ...next.configs["core-web-vitals"].rules,
+      curly: ["error", "all"],
       "prettier/prettier": "error",
       "react/react-in-jsx-scope": "off", // Not needed in Next.js
       "@next/next/no-html-link-for-pages": "off", // Only enable if using file-based routing
