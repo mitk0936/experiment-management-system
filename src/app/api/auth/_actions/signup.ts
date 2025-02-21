@@ -2,25 +2,14 @@
 
 import { User } from "@/core/entities/User";
 import { logError } from "@/core/utils/logger";
-import { MESSAGES } from "@/presentation/common/constants/messages";
-import { SignUpFormData, signUpFormSchema } from "./schema";
+import { MESSAGES } from "@/presentation/constants/messages";
+import { SignUpFormData, signUpFormSchema } from "../../../../core/validation/signup/schema";
 import { UserRepository } from "@/core/repositories/User/UserRepository";
 import { PasswordService } from "@/core/services/PasswordService";
-import { extractZodErrors } from "@/core/utils/zod";
+import { extractZodErrors } from "@/core/validation/utils";
+import { APIResponse } from "@/core/types/api";
 
-interface SignUpSuccessResponse {
-  success: true;
-}
-
-interface SignUpErrorResponse {
-  success: false;
-  formError?: string;
-  fieldErrors?: Record<keyof SignUpFormData, string>;
-}
-
-export async function signUp(
-  data: SignUpFormData,
-): Promise<SignUpSuccessResponse | SignUpErrorResponse> {
+export async function signUp(data: SignUpFormData): Promise<APIResponse<{}, SignUpFormData>> {
   try {
     // 1. Handle srever side validations on the submitted data
     const validation = signUpFormSchema.safeParse(data);
@@ -28,7 +17,7 @@ export async function signUp(
     if (!validation.success) {
       return {
         success: false,
-        fieldErrors: extractZodErrors(validation) ?? {},
+        fieldErrors: (extractZodErrors(validation) as SignUpFormData) ?? {},
       };
     }
 
@@ -39,7 +28,7 @@ export async function signUp(
     if (userExists) {
       return {
         success: false,
-        formError: MESSAGES.UserAlreadyExists,
+        error: MESSAGES.UserAlreadyExists,
       };
     }
 
@@ -52,13 +41,14 @@ export async function signUp(
 
     return {
       success: true,
+      data: {},
     };
   } catch (err) {
     logError("Unable to sign up user.", err, "actions (handleSignup)");
 
     return {
       success: false,
-      formError: MESSAGES.SignupErrorOccured,
+      error: MESSAGES.SignupErrorOccured,
     };
   }
 }

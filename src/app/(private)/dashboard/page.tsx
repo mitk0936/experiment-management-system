@@ -1,4 +1,4 @@
-import ExperimentsPage from "@/presentation/modules/experiments/components/container";
+import { Container as ExperimentsPageContainer } from "@/presentation/modules/experiments/components/Container";
 
 export const metadata = {
   title: "Experiments | Dashboard",
@@ -6,5 +6,5 @@ export const metadata = {
 };
 
 export default function Dashboard() {
-  return <ExperimentsPage />;
+  return <ExperimentsPageContainer />;
 }

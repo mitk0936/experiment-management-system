@@ -1,29 +1,44 @@
+import { IExperiment } from "@/core/entities/Experiment";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { AddExperimentFormData } from "../../../../core/validation/add-experiment/schema";
+import { APIResponse } from "@/core/types/api";
+
+type MutationContext = { previousData: IExperiment[] | undefined };
 
 export function useAddExperiment() {
   const queryClient = useQueryClient();
 
-  return useMutation({
-    mutationFn: async (formData: any) => {
-      const res = await fetch("/api/experiments", {
+  return useMutation<
+    IExperiment,
+    APIResponse<IExperiment, AddExperimentFormData>,
+    AddExperimentFormData,
+    MutationContext
+  >({
+    mutationFn: async (formData) => {
+      const res = await fetch("/api/experiment", {
         method: "POST",
         body: JSON.stringify(formData),
         headers: { "Content-Type": "application/json" },
       });
 
-      if (!res.ok) throw new Error("Failed to add experiment");
-      return res.json();
-    },
-    onMutate: async (newExperiment) => {
-      queryClient.cancelQueries({ queryKey: "experiments" });
+      const responseData: APIResponse<IExperiment> = await res.json();
 
-      const previousData = queryClient.getQueryData(["experiments"]);
-      queryClient.setQueryData(["experiments"], (old: any) => [...old, newExperiment]);
+      if (!responseData.success) {
+        throw responseData;
+      }
 
-      return { previousData };
+      return responseData.data;
     },
-    onError: (err, newExperiment, context) => {
-      queryClient.setQueryData(["experiments"], context?.previousData);
+    onSuccess: (newExperiment) => {
+      queryClient.setQueryData(["experiments"], (previousData: IExperiment[] = []) => [
+        newExperiment,
+        ...previousData,
+      ]);
+    },
+    onError: (_err, _newExperiment, context) => {
+      if (context?.previousData) {
+        queryClient.setQueryData(["experiments"], context.previousData);
+      }
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: "experiments" });

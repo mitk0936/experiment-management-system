@@ -12,7 +12,7 @@ import {
 } from "@/presentation/common/components/ui/sidebar";
 import { Home, User } from "lucide-react";
 import { Separator } from "@/presentation/common/components/ui/separator";
-import SignOutButton from "../sign-out-button";
+import SignOutButton from "./SignOutButton";
 import { usePathname } from "next/navigation";
 
 type IconParams = {
