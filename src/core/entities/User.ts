@@ -32,15 +32,4 @@ export class User implements IUser {
       password: this.password,
     };
   }
-
-  async getHashedPassword() {
-    // Static imports might cause issues with bcryptjs in certain next.js environments
-    const bcrypt = await import("bcryptjs");
-    return await bcrypt.hash(this.password, 10);
-  }
-
-  async checkPassword(inputPassword: string) {
-    const bcrypt = await import("bcryptjs");
-    return bcrypt.compare(inputPassword, this.password);
-  }
 }

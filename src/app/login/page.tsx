@@ -1,11 +1,11 @@
 "use client";
 
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/presentation/common/components/ui/tabs";
-import { PAGE_ROUTES } from "@/presentation/common/constants/routes";
-import SignInForm from "../../presentation/modules/login/components/forms/signin";
 import { redirect } from "next/navigation";
-import SignUpForm from "../../presentation/modules/login/components/forms/signup";
-import { AppInfo } from "@/presentation/common/components/composite/app-info";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/presentation/common/components/ui/tabs";
+import { PAGE_ROUTES } from "@/core/constants/routes";
+import { SignIn } from "../../presentation/modules/login/components/forms/SignIn";
+import { SignUp } from "../../presentation/modules/login/components/forms/SignUp";
+import { AppInfo } from "@/presentation/common/components/composite/AppInfo";
 import React from "react";
 
 export default function AuthPage() {
@@ -25,12 +25,12 @@ export default function AuthPage() {
 
           {/* LOGIN FORM */}
           <TabsContent value="login">
-            <SignInForm onSignedIn={() => redirect(PAGE_ROUTES.dashboard)} />
+            <SignIn onSignedIn={() => redirect(PAGE_ROUTES.dashboard)} />
           </TabsContent>
 
           {/* SIGNUP FORM */}
           <TabsContent value="signup">
-            <SignUpForm />
+            <SignUp />
           </TabsContent>
         </Tabs>
       </div>

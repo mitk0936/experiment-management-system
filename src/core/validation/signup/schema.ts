@@ -1,5 +1,5 @@
 import * as z from "zod";
-import { MESSAGES } from "@/presentation/common/constants/messages";
+import { MESSAGES } from "@/presentation/constants/messages";
 
 export const signUpFormSchema = z
   .object({

@@ -6,15 +6,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Input } from "@/presentation/common/components/ui/input";
 import { Button } from "@/presentation/common/components/ui/button";
-import { MESSAGES } from "@/presentation/common/constants/messages";
-import { signUp } from "./action";
-import { SignUpFormData, signUpFormSchema } from "./action/schema";
+import { MESSAGES } from "@/presentation/constants/messages";
+import { signUp } from "../../../../../app/api/auth/_actions/signup";
+import { SignUpFormData, signUpFormSchema } from "../../../../../core/validation/signup/schema";
 import { TypographyH2 } from "@/presentation/common/components/ui/typography";
-import { FormWrapper } from "@/presentation/common/components/composite/form-wrapper";
-import { FormError } from "@/presentation/common/components/composite/form-error";
+import { FormWrapper } from "@/presentation/common/components/composite/FormWrapper";
+import { FormError } from "@/presentation/common/components/composite/FormError";
 
-export default function SignUpForm() {
-  const [isLoading, setIsLoading] = useState(false);
+export function SignUp() {
   const [formGeneralSuccessMessage, setFormGeneralSuccessMessage] = useState(MESSAGES.Empty);
   const [formGeneralError, setFormGeneralError] = useState(MESSAGES.Empty);
 
@@ -22,7 +21,7 @@ export default function SignUpForm() {
     register,
     handleSubmit,
     setError: setFieldError,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     reset: resetForm,
   } = useForm<SignUpFormData>({
     resolver: zodResolver(signUpFormSchema),
@@ -30,16 +29,20 @@ export default function SignUpForm() {
 
   /** Handle SignUp Server Action */
   async function handleSignUp(data: SignUpFormData) {
-    setIsLoading(true);
     setFormGeneralError(MESSAGES.Empty);
 
     const result = await signUp(data);
 
-    setIsLoading(false);
+    if (result.success) {
+      // SignUp is successfull, form is reset
+      resetForm();
+      setFormGeneralSuccessMessage(MESSAGES.SignupSuccessfull);
+      return;
+    }
 
     if (!result.success) {
-      const fieldErrors = result.fieldErrors;
-      const formError = result.formError;
+      const fieldErrors = "fieldErrors" in result && result.fieldErrors;
+      const formError = "error" in result && result.error;
 
       // apply field errors
       if (fieldErrors) {
@@ -55,14 +58,10 @@ export default function SignUpForm() {
 
       return;
     }
-
-    // SignUp is successfull, form is reset
-    resetForm();
-    setFormGeneralSuccessMessage(MESSAGES.SignupSuccessfull);
   }
 
   return (
-    <FormWrapper isLoading={isLoading}>
+    <FormWrapper isLoading={isSubmitting}>
       <form onSubmit={handleSubmit(handleSignUp)} className="space-y-4 p-4">
         <TypographyH2>Sign Up</TypographyH2>
         <FormError message={formGeneralError} />

@@ -3,8 +3,8 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import React, { PropsWithChildren } from "react";
 import { SidebarProvider, SidebarTrigger } from "@/presentation/common/components/ui/sidebar";
-import DashboardSidebar from "../../presentation/common/components/composite/sidebar";
-import { PAGE_ROUTES } from "@/presentation/common/constants/routes";
+import DashboardSidebar from "../../presentation/common/components/composite/Sidebar";
+import { PAGE_ROUTES } from "@/core/constants/routes";
 
 export default async function AuthLayout({ children }: PropsWithChildren) {
   const session = await getServerSession(authOptions);
