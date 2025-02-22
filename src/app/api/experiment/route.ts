@@ -8,8 +8,8 @@ import ExperimentRepository from "@/core/repositories/Experiment/ExperimentRepos
 import { extractZodErrors } from "@/core/validation/utils";
 import { APIErrorResponse, APIResponse } from "@/core/types/api";
 import { Experiment, IExperiment } from "@/core/entities/Experiment";
-import { User } from "@/core/entities/User";
 import { withAuth } from "../auth/_utils/with-auth";
+import { UserRepository } from "@/core/repositories/User/UserRepository";
 
 export const GET = withAuth<IExperiment[]>(async function (): Promise<
   NextResponse<APIResponse<IExperiment[]>>
@@ -28,6 +28,7 @@ export const GET = withAuth<IExperiment[]>(async function (): Promise<
 
 export const POST = withAuth<IExperiment>(async function (
   req: Request,
+  sessionUser,
 ): Promise<NextResponse<APIResponse<IExperiment>>> {
   try {
     const body = await req.json();
@@ -44,7 +45,7 @@ export const POST = withAuth<IExperiment>(async function (
       ...validation.data,
       id: Experiment.generateExperimentId(),
       dateCreated: new Date().toISOString(),
-      userId: User.generateUserId(), // TODO: this should be dynamically retrieved from session
+      userId: sessionUser.id,
     });
 
     return NextResponse.json({ success: true, data: experiment }, { status: 201 });

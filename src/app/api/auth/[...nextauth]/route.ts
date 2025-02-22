@@ -27,7 +27,11 @@ export const authOptions = {
           );
           if (!isValidPassword) return null;
 
-          return { id: user.id, email: user.email, name: user.name };
+          return {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+          };
         } catch (error) {
           logError("Unable to authorize user", error, "next-auth (authorize)");
           return null;
@@ -35,6 +39,23 @@ export const authOptions = {
       },
     }),
   ],
+  callbacks: {
+    // @ts-ignore Ignored due to an issue with built-in next-auth types
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+        token.role = user.role;
+      }
+      return token;
+    },
+    // @ts-ignore Ignored due to an issue with built-in next-auth types
+    async session({ session, token }) {
+      session.user.id = token.id;
+      session.user.role = token.role;
+      return session;
+    },
+  },
+
   secret: process.env.NEXTAUTH_SECRET,
 };
 

@@ -1,7 +1,7 @@
 import { IExperimentRepository } from "./IExperimentRepository";
 import { CollectionReference } from "@google-cloud/firestore";
 import { firestoreDb as db } from "@/core/db/index";
-import { IExperiment } from "@/core/entities/Experiment";
+import { Experiment, IExperiment } from "@/core/entities/Experiment";
 
 export class FirestoreExperimentRepository implements IExperimentRepository {
   private collection = db.collection("experiments") as CollectionReference<IExperiment>;
@@ -9,6 +9,18 @@ export class FirestoreExperimentRepository implements IExperimentRepository {
   async findByUserId(userId: string): Promise<IExperiment[]> {
     const snapshot = await this.collection.where("userId", "==", userId).get();
     return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }) as IExperiment);
+  }
+
+  async getById(experimentId: string): Promise<IExperiment | null> {
+    const snapshot = await this.collection.where("id", "==", experimentId).limit(1).get();
+
+    if (snapshot.empty) {
+      return null;
+    }
+
+    const data = snapshot.docs[0].data();
+
+    return new Experiment({ ...data });
   }
 
   async create(experiment: IExperiment): Promise<IExperiment> {
@@ -27,12 +39,15 @@ export class FirestoreExperimentRepository implements IExperimentRepository {
   }
 
   async delete(id: string): Promise<boolean> {
-    const docRef = this.collection.doc(id);
-    const doc = await docRef.get();
-    if (!doc.exists) return false;
+    const snapshot = await this.collection.where("id", "==", id).get();
+    const item = snapshot.docs[0];
 
-    await docRef.delete();
-    return true;
+    if (item) {
+      await item.ref.delete();
+      return true;
+    }
+
+    return false;
   }
 
   async getAll(): Promise<IExperiment[]> {
