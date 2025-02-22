@@ -11,7 +11,7 @@ import { toast } from "sonner";
 import { ExperimentsTable } from "./ExperimentsTable";
 import { SessionProvider } from "next-auth/react";
 
-export function Container() {
+export function PageContainer() {
   const [isAddExperimentsDialogOpen, setIsAddExperimentsDialogOpen] = useState(false);
   const queryClient = useMemo(() => new QueryClient(), []);
 

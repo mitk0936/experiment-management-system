@@ -6,11 +6,6 @@ import { Experiment, IExperiment } from "@/core/entities/Experiment";
 export class FirestoreExperimentRepository implements IExperimentRepository {
   private collection = db.collection("experiments") as CollectionReference<IExperiment>;
 
-  async findByUserId(userId: string): Promise<IExperiment[]> {
-    const snapshot = await this.collection.where("userId", "==", userId).get();
-    return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }) as IExperiment);
-  }
-
   async getById(experimentId: string): Promise<IExperiment | null> {
     const snapshot = await this.collection.where("id", "==", experimentId).limit(1).get();
 
@@ -24,37 +19,37 @@ export class FirestoreExperimentRepository implements IExperimentRepository {
   }
 
   async create(experiment: IExperiment): Promise<IExperiment> {
-    const docRef = await this.collection.add(experiment);
-    return { id: docRef.id, ...experiment };
+    await this.collection.add(experiment);
+    return experiment;
   }
 
-  async update(id: string, data: Partial<IExperiment>): Promise<IExperiment | null> {
-    const docRef = this.collection.doc(id);
-    const doc = await docRef.get();
+  async update(id: string, data: Partial<IExperiment>): Promise<IExperiment> {
+    const snapshot = await this.collection.where("id", "==", id).limit(1).get();
 
-    if (!doc.exists) {
-      return null;
+    if (snapshot.empty) {
+      throw new Error("Experiment does not exist.");
     }
 
-    await docRef.update(data);
-    return { id, ...doc.data(), ...data } as IExperiment;
+    const experimentItem = snapshot.docs[0];
+    await experimentItem.ref.update(data);
+    const updatedDoc = await experimentItem.ref.get();
+    return updatedDoc.data() as IExperiment;
   }
 
-  async delete(id: string): Promise<boolean> {
+  async delete(id: string): Promise<void> {
     const snapshot = await this.collection.where("id", "==", id).get();
     const item = snapshot.docs[0];
 
-    if (item) {
-      await item.ref.delete();
-      return true;
+    if (!item) {
+      throw new Error("No experiment to delete.");
     }
 
-    return false;
+    await item.ref.delete();
   }
 
   async getAll(): Promise<IExperiment[]> {
     const snapshot = await this.collection.orderBy("dateCreated", "desc").get();
-    const experiments = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    const experiments = snapshot.docs.map((doc) => ({ ...doc.data() }));
     return experiments;
   }
 }
