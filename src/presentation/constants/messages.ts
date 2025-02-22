@@ -1,3 +1,5 @@
+import { Experiment } from "@/core/entities/Experiment";
+
 export const MESSAGES = {
   Empty: "",
   // General Errors
@@ -5,7 +7,9 @@ export const MESSAGES = {
   InvalidCredentials: "Invalid credentials.",
   SignupErrorOccured: "Signup Error Occured.",
   AnErrorOccuredTryAgainLater: "An error occurred. Please try again.",
-  RequestIsUnauthorized: "The Request is unauthorized",
+  RequestIsUnauthorized: "The Request is unauthorized.",
+  InvalidExperiment: "Invalid experiment",
+  ExperimentNotFound: "Experiment not found.",
   // Success Messages
   SignupSuccessfull: "Account created successfully. You can now Log in.",
   // Field Validations

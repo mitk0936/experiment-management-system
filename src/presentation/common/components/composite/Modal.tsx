@@ -37,13 +37,15 @@ export default function Modal({
           )}
         >
           <div className="relative w-full">
-            <Dialog.Title className="text-lg font-semibold">{title}</Dialog.Title>
-            <Dialog.Close
-              onClick={() => onOpenChange(false)}
-              className="absolute top-2 right-2 p-1 rounded-md hover:bg-gray-200 dark:hover:bg-gray-800"
-            >
-              <X className="w-5 h-5" />
-            </Dialog.Close>
+            <div className="flex justify-between align-middle">
+              <Dialog.Title className="text-lg font-semibold">{title}</Dialog.Title>
+              <Dialog.Close
+                onClick={() => onOpenChange(false)}
+                className="rounded-md hover:bg-gray-200 dark:hover:bg-gray-800"
+              >
+                <X className="w-5 h-5" />
+              </Dialog.Close>
+            </div>
             <div className="mt-4">{children}</div>
           </div>
         </Dialog.Content>
