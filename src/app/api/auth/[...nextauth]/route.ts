@@ -19,13 +19,17 @@ export const authOptions = {
 
         try {
           const user = await repository.getUserByEmail(credentials.email);
-          if (!user) return null;
+          if (!user) {
+            return null;
+          }
 
           const isValidPassword = await PasswordService.checkPassword(
             credentials.password,
             user.password,
           );
-          if (!isValidPassword) return null;
+          if (!isValidPassword) {
+            return null;
+          }
 
           return {
             id: user.id,
@@ -40,7 +44,7 @@ export const authOptions = {
     }),
   ],
   callbacks: {
-    // @ts-ignore Ignored due to an issue with built-in next-auth types
+    // @ts-expect-error Ignored due to an issue with built-in next-auth types
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
@@ -48,7 +52,7 @@ export const authOptions = {
       }
       return token;
     },
-    // @ts-ignore Ignored due to an issue with built-in next-auth types
+    // @ts-expect-error Ignored due to an issue with built-in next-auth types
     async session({ session, token }) {
       session.user.id = token.id;
       session.user.role = token.role;
