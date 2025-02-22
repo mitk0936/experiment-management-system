@@ -2,7 +2,7 @@ import { z } from "zod";
 import { ExperimentField, ExperimentStatus } from "@/core/entities/Experiment";
 import { MESSAGES } from "@/presentation/constants/messages";
 
-export const addExperimentSchema = z.object({
+export const experimentSchema = z.object({
   name: z.string().trim().min(3, { message: "Name must be at least 3 characters" }),
   description: z.string().optional(),
   field: z.nativeEnum(ExperimentField, {
@@ -13,4 +13,4 @@ export const addExperimentSchema = z.object({
   }),
 });
 
-export type AddExperimentFormData = z.infer<typeof addExperimentSchema>;
+export type ExperimentFormData = z.infer<typeof experimentSchema>;

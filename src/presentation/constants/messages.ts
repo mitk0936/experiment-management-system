@@ -6,6 +6,7 @@ export const MESSAGES = {
   SignupErrorOccured: "Signup Error Occured.",
   AnErrorOccuredTryAgainLater: "An error occurred. Please try again.",
   RequestIsUnauthorized: "The Request is unauthorized.",
+  AccessForbidden: "Access to the requested resource is forbidden",
   InvalidExperiment: "Invalid experiment",
   ExperimentNotFound: "Experiment not found.",
   // Success Messages

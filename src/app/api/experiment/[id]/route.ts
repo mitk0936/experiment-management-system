@@ -4,46 +4,58 @@ import { logError } from "@/core/utils/logger";
 import ExperimentRepository from "@/core/repositories/Experiment/ExperimentRepository";
 import { APIErrorResponse, APIResponse } from "@/core/types/api";
 import { withAuth } from "../../auth/_utils/with-auth";
-import { AccessControlService } from "@/core/services/AccessControlService";
+import { validateExperimentAccess } from "./_utils/validateExperimentAccess";
+import { ExperimentFormData, experimentSchema } from "@/core/validation/experiment/schema";
+import { extractZodErrors } from "@/core/validation/utils";
+import { IExperiment } from "@/core/entities/Experiment";
 
-export const DELETE = withAuth<null>(async function (
+export const PATCH = withAuth(async function (
   req: Request,
   sessionUser,
-): Promise<NextResponse<APIResponse<null>>> {
+): Promise<NextResponse<APIResponse<IExperiment>>> {
   try {
-    const url = new URL(req.url);
-    // Extract ID from URL, TODO, maybe find a better way to do it
-    const experimentId = url.pathname.split("/").pop();
+    const validationResponse = await validateExperimentAccess(req, sessionUser);
 
-    if (!experimentId) {
+    if (validationResponse instanceof NextResponse) {
+      return validationResponse;
+    }
+
+    const { experimentId } = validationResponse;
+
+    const body: ExperimentFormData = await req.json();
+    const validation = experimentSchema.safeParse(body);
+
+    if (!validation.success) {
       return NextResponse.json<APIErrorResponse>(
-        { success: false, error: MESSAGES.InvalidExperiment },
+        { success: false, fieldErrors: extractZodErrors(validation) },
         { status: 400 },
       );
     }
 
-    // Ensure the experiment exists before deleting it
-    const experiment = await ExperimentRepository.getById(experimentId);
+    const updatedExperimentData = await ExperimentRepository.update(experimentId, { ...body });
+    return NextResponse.json({ success: true, data: updatedExperimentData }, { status: 200 });
+  } catch (error) {
+    logError("ISE when trying to update an experiment", error, "PATCH /api/experiment/:id");
 
-    if (!experiment) {
-      return NextResponse.json<APIErrorResponse>(
-        { success: false, error: MESSAGES.ExperimentNotFound },
-        { status: 404 },
-      );
-    }
-
-    const userAuthroizedForExperiment = await AccessControlService.isUserAuthorizedForExperiment(
-      sessionUser?.id,
-      experimentId,
+    return NextResponse.json<APIErrorResponse>(
+      { success: false, error: MESSAGES.AnErrorOccuredTryAgainLater },
+      { status: 500 },
     );
+  }
+});
 
-    if (!userAuthroizedForExperiment) {
-      return NextResponse.json<APIErrorResponse>(
-        { success: false, error: "Unauthorized to delete this experiment" },
-        { status: 403 },
-      );
+export const DELETE = withAuth(async function (
+  req: Request,
+  sessionUser,
+): Promise<NextResponse<APIResponse<null>>> {
+  try {
+    const validationResponse = await validateExperimentAccess(req, sessionUser);
+
+    if (validationResponse instanceof NextResponse) {
+      return validationResponse;
     }
 
+    const { experimentId } = validationResponse;
     await ExperimentRepository.delete(experimentId);
 
     return NextResponse.json({ success: true, data: null }, { status: 200 });

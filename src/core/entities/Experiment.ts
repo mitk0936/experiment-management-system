@@ -1,7 +1,7 @@
 import { randomUUID } from "node:crypto";
 
 export interface IExperiment {
-  id?: string;
+  id: string;
   name: string;
   description?: string;
   field: ExperimentField;
@@ -11,7 +11,7 @@ export interface IExperiment {
 }
 
 export class Experiment implements IExperiment {
-  id?: string;
+  id: string;
   name: string;
   description?: string;
   field: ExperimentField;

@@ -26,12 +26,6 @@ const menuItems = [
     label: "Dashboard",
     href: "/dashboard",
   },
-  {
-    id: "profile",
-    Icon: ({ className }: IconParams) => <User className={className} />,
-    label: "Profile",
-    href: "/profile",
-  },
 ];
 
 export default function DashboardSidebar() {
@@ -53,10 +47,7 @@ export default function DashboardSidebar() {
         <SidebarMenu>
           {menuItems.map(({ id, href, Icon, label }) => (
             <SidebarMenuItem key={`sidebar-menu-item-${id}`}>
-              <Link
-                href={href}
-                className="block px-4 py-2 hover:bg-sidebar-accent rounded flex gap-3"
-              >
+              <Link href={href} className="px-4 py-2 hover:bg-sidebar-accent rounded flex gap-3">
                 <Icon className={isMatchingRoute(href) ? "text-primary" : ""} />
                 {label}
               </Link>

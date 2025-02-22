@@ -3,13 +3,12 @@
 import { NextResponse } from "next/server";
 import { MESSAGES } from "@/presentation/constants/messages";
 import { logError } from "@/core/utils/logger";
-import { addExperimentSchema } from "@/core/validation/add-experiment/schema";
+import { experimentSchema } from "@/core/validation/experiment/schema";
 import ExperimentRepository from "@/core/repositories/Experiment/ExperimentRepository";
 import { extractZodErrors } from "@/core/validation/utils";
 import { APIErrorResponse, APIResponse } from "@/core/types/api";
 import { Experiment, IExperiment } from "@/core/entities/Experiment";
 import { withAuth } from "../auth/_utils/with-auth";
-import { UserRepository } from "@/core/repositories/User/UserRepository";
 
 export const GET = withAuth<IExperiment[]>(async function (): Promise<
   NextResponse<APIResponse<IExperiment[]>>
@@ -32,7 +31,7 @@ export const POST = withAuth<IExperiment>(async function (
 ): Promise<NextResponse<APIResponse<IExperiment>>> {
   try {
     const body = await req.json();
-    const validation = addExperimentSchema.safeParse(body);
+    const validation = experimentSchema.safeParse(body);
 
     if (!validation.success) {
       return NextResponse.json<APIErrorResponse>(

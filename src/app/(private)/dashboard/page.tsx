@@ -1,4 +1,4 @@
-import { Container as ExperimentsPageContainer } from "@/presentation/modules/experiments/components/Container";
+import { PageContainer as ExperimentsPageContainer } from "@/presentation/modules/experiments/components/PageContainer";
 
 export const metadata = {
   title: "Experiments | Dashboard",

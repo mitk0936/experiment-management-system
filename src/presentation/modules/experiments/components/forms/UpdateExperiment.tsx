@@ -13,20 +13,21 @@ import {
   SelectContent,
   SelectItem,
 } from "@/presentation/common/components/ui/select";
-import { useAddExperiment } from "@/presentation/modules/experiments/hooks/useAddExperiment";
 import { FormWrapper } from "@/presentation/common/components/composite/FormWrapper";
-import { ExperimentField, ExperimentStatus } from "@/core/entities/Experiment";
+import { ExperimentField, ExperimentStatus, IExperiment } from "@/core/entities/Experiment";
 import { ExperimentFormData, experimentSchema } from "@/core/validation/experiment/schema";
 import { FormError } from "@/presentation/common/components/composite/FormError";
 import { useState } from "react";
 import { MESSAGES } from "@/presentation/constants/messages";
+import { useUpdateExperiment } from "../../hooks/useUpdateExperiment";
 
 interface Props {
+  experiment: IExperiment;
   onError: Function;
   onComplete: Function;
 }
 
-export function AddExperiment({ onError, onComplete }: Props) {
+export function UpdateExperiment({ experiment, onError, onComplete }: Props) {
   const [formGeneralError, setFormGeneralError] = useState(MESSAGES.Empty);
 
   const {
@@ -39,16 +40,22 @@ export function AddExperiment({ onError, onComplete }: Props) {
     formState: { errors },
   } = useForm({
     resolver: zodResolver(experimentSchema),
+    defaultValues: {
+      name: experiment.name,
+      description: experiment.description,
+      field: experiment.field,
+      status: experiment.status,
+    },
   });
 
-  const { mutate: addExperiment, isPending } = useAddExperiment();
+  const { mutate: updateExperiment, isPending } = useUpdateExperiment();
 
   const fieldValue = watch("field") || "";
   const statusValue = watch("status") || "";
 
   async function onSubmit(data: ExperimentFormData) {
-    addExperiment(
-      { ...data },
+    updateExperiment(
+      { id: experiment.id, data },
       {
         onSuccess() {
           resetForm();
@@ -91,7 +98,7 @@ export function AddExperiment({ onError, onComplete }: Props) {
         <FormError message={errors.name?.message} />
 
         {/* Description */}
-        <Textarea {...register("description")} placeholder="Description (optional)" />
+        <Textarea {...register("description")} rows={8} placeholder="Description (optional)" />
 
         {/* Field (Category) */}
         <Select
@@ -135,7 +142,7 @@ export function AddExperiment({ onError, onComplete }: Props) {
 
         {/* Submit Button */}
         <Button type="submit" disabled={isPending} className="w-full">
-          Create Experiment
+          Update Experiment
         </Button>
       </form>
     </FormWrapper>
