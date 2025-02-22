@@ -1,5 +1,3 @@
-import { Experiment } from "@/core/entities/Experiment";
-
 export const MESSAGES = {
   Empty: "",
   // General Errors

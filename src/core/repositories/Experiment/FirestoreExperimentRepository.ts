@@ -32,7 +32,9 @@ export class FirestoreExperimentRepository implements IExperimentRepository {
     const docRef = this.collection.doc(id);
     const doc = await docRef.get();
 
-    if (!doc.exists) return null;
+    if (!doc.exists) {
+      return null;
+    }
 
     await docRef.update(data);
     return { id, ...doc.data(), ...data } as IExperiment;
