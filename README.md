@@ -6,7 +6,7 @@ This is a **Full-Stack Experiment Management System** built with:
 
 - **Next.js 15** (React framework)
 - **Node.js 22** (Backend API & authentication)
-- **Cloud Firestore** (Database, running in a Docker container)
+- **Cloud Firestore** (Database (local emulator), running in a Docker container)
 - **ShadCN + Tailwind CSS** (UI components & styling)
 - **NextAuth.js** (User authentication)
 
@@ -56,12 +56,24 @@ docker-compose up --build
 docker-compose down
 ```
 
+---
+
+## Development Process
+
+For dev purposes (running a dev server) you will need Node 22 installed (npm 10)
+
+### **Install dependencies**
+
+```sh
+npm ci
+```
+
 ### **Run the Development Server**
 
 ```sh
 npm run dev
 ```
 
-The app will be available at `http://localhost:3000`
+The dev command will also run a CloudFirestore DB emulator (see docker-compose.dev.yml)
 
----
+The app will be available at `http://localhost:3000`
