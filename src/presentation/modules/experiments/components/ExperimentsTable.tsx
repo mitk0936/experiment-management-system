@@ -18,7 +18,7 @@ import {
   DropdownMenuTrigger,
 } from "@/presentation/common/components/ui/dropdown-menu";
 import { ConfirmDialog } from "@/presentation/common/components/composite/ConfirmDialog";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { useDeleteExperiment } from "../hooks/useDeleteExperiment";
 import { toast } from "sonner";
 import { useSession } from "next-auth/react";

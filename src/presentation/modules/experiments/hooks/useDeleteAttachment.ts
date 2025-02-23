@@ -17,7 +17,7 @@ export function useDeleteAttachment(experimentId: string) {
           throw responseData;
         }
       },
-      onSuccess: (_data, { attachmentId }, context) => {
+      onSuccess: (_data, { attachmentId }) => {
         queryClient.setQueryData(
           ["attachments", experimentId],
           (previousData: IAttachmentMetaData[] = []) =>

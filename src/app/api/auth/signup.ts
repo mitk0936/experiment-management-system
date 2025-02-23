@@ -3,13 +3,13 @@
 import { User } from "@/core/entities/User";
 import { logError } from "@/core/utils/logger";
 import { MESSAGES } from "@/presentation/constants/messages";
-import { SignUpFormData, signUpFormSchema } from "../../../../core/validation/signup/schema";
+import { SignUpFormData, signUpFormSchema } from "../../../core/validation/signup/schema";
 import { UserRepository } from "@/core/repositories/User/UserRepository";
 import { PasswordService } from "@/core/services/PasswordService";
 import { extractZodErrors } from "@/core/validation/utils";
 import { APIResponse } from "@/core/types/api";
 
-export async function signUp(data: SignUpFormData): Promise<APIResponse<{}, SignUpFormData>> {
+export async function signUp(data: SignUpFormData): Promise<APIResponse<object, SignUpFormData>> {
   try {
     // 1. Handle srever side validations on the submitted data
     const validation = signUpFormSchema.safeParse(data);

@@ -10,7 +10,7 @@ import {
   SidebarMenu,
   SidebarMenuItem,
 } from "@/presentation/common/components/ui/sidebar";
-import { Home, User } from "lucide-react";
+import { Home } from "lucide-react";
 import { Separator } from "@/presentation/common/components/ui/separator";
 import SignOutButton from "./SignOutButton";
 import { usePathname } from "next/navigation";

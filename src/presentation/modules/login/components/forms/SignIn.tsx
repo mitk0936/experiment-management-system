@@ -14,7 +14,7 @@ import { FormWrapper } from "@/presentation/common/components/composite/FormWrap
 import { FormError } from "@/presentation/common/components/composite/FormError";
 
 interface Props {
-  onSignedIn: Function;
+  onSignedIn: () => void;
 }
 
 export function SignIn({ onSignedIn }: Props) {

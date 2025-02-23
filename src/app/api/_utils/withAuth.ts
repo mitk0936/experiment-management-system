@@ -5,7 +5,7 @@ import { MESSAGES } from "@/presentation/constants/messages";
 import { APIErrorResponse } from "@/core/types/api";
 import { Session } from "next-auth";
 
-// @ts-expect-error Ignore the any ts errors
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function withAuth<T extends (...args: any[]) => Promise<any>>(handler: T): T {
   return (async (...args: Parameters<T>): Promise<ReturnType<T>> => {
     const session = (await getServerSession(authOptions)) as Session;

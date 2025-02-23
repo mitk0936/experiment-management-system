@@ -1,5 +1,5 @@
 import { withAuth } from "@/app/api/_utils/withAuth";
-import AttachmentRepository from "@/core/repositories/Attachment/AttachmentRepository";
+import { AttachmentRepository } from "@/core/repositories/Attachment/AttachmentRepository";
 import { logError } from "@/core/utils/logger";
 import { MESSAGES } from "@/presentation/constants/messages";
 import { NextResponse } from "next/server";

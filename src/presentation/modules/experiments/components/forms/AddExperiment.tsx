@@ -22,8 +22,8 @@ import { useState } from "react";
 import { MESSAGES } from "@/presentation/constants/messages";
 
 interface Props {
-  onError: Function;
-  onComplete: Function;
+  onError: () => void;
+  onComplete: () => void;
 }
 
 export function AddExperiment({ onError, onComplete }: Props) {

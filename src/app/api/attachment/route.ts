@@ -2,7 +2,7 @@ import { Attachment, IAttachmentMetaData } from "@/core/entities/Attachment";
 import { withAuth } from "../_utils/withAuth";
 import { NextResponse } from "next/server";
 import { APIResponse } from "@/core/types/api";
-import AttachmentRepository from "@/core/repositories/Attachment/AttachmentRepository";
+import { AttachmentRepository } from "@/core/repositories/Attachment/AttachmentRepository";
 import { MESSAGES } from "@/presentation/constants/messages";
 import { logError } from "@/core/utils/logger";
 import { attachmentSchema } from "@/core/validation/attachment/schema";

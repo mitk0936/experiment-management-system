@@ -3,8 +3,8 @@ import { ExperimentField, ExperimentStatus } from "@/core/entities/Experiment";
 import { MESSAGES } from "@/presentation/constants/messages";
 
 export const experimentSchema = z.object({
-  name: z.string().trim().min(3, { message: "Name must be at least 3 characters" }),
-  description: z.string().optional(),
+  name: z.string().trim().min(3, { message: MESSAGES.NameMustBe3OrMoreChars }),
+  description: z.string().trim().optional(),
   field: z.nativeEnum(ExperimentField, {
     message: MESSAGES.FieldIsRequired,
   }),
