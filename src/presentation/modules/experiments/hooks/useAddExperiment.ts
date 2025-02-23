@@ -2,8 +2,7 @@ import { IExperiment } from "@/core/entities/Experiment";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ExperimentFormData } from "@/core/validation/experiment/schema";
 import { APIResponse } from "@/core/types/api";
-
-type MutationContext = { previousData: IExperiment[] | undefined };
+import { ExperimentsMutationContext } from "./types";
 
 export function useAddExperiment() {
   const queryClient = useQueryClient();
@@ -12,7 +11,7 @@ export function useAddExperiment() {
     IExperiment,
     APIResponse<IExperiment, ExperimentFormData>,
     ExperimentFormData,
-    MutationContext
+    ExperimentsMutationContext
   >({
     mutationFn: async (formData) => {
       const res = await fetch("/api/experiment", {

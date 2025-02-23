@@ -8,6 +8,7 @@ export const MESSAGES = {
   RequestIsUnauthorized: "The Request is unauthorized.",
   AccessForbidden: "Access to the requested resource is forbidden",
   InvalidExperiment: "Invalid experiment",
+  InvalidAttachment: "Invalid attachment",
   ExperimentNotFound: "Experiment not found.",
   // Success Messages
   SignupSuccessfull: "Account created successfully. You can now Log in.",
@@ -23,4 +24,7 @@ export const MESSAGES = {
   FieldIsRequired: "Field is required",
   StatusIsRequried: "Status is required",
   DateCannotBeInTheFuture: "Date cannot be in the future",
+  OnlyCsvFilesAreAllowed: "Only CSV files are allowed",
+  ExperimentIdIsRequired: "Experiment ID is required",
+  NoFileIsAttached: "No file is attached",
 };

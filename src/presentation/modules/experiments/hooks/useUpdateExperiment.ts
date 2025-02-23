@@ -2,8 +2,7 @@ import { IExperiment } from "@/core/entities/Experiment";
 import { APIResponse } from "@/core/types/api";
 import { ExperimentFormData } from "@/core/validation/experiment/schema";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-
-type MutationContext = { previousData: IExperiment[] | undefined };
+import { ExperimentsMutationContext } from "./types";
 
 export function useUpdateExperiment() {
   const queryClient = useQueryClient();
@@ -12,7 +11,7 @@ export function useUpdateExperiment() {
     IExperiment,
     APIResponse<IExperiment, ExperimentFormData>,
     { id: string; data: ExperimentFormData },
-    MutationContext
+    ExperimentsMutationContext
   >({
     mutationFn: async ({ id, data }) => {
       const res = await fetch(`/api/experiment/${id}`, {
@@ -31,13 +30,9 @@ export function useUpdateExperiment() {
     },
     onSuccess: (newExperiment) => {
       queryClient.setQueryData(["experiments"], (previousData: IExperiment[] = []) => {
-        return previousData.reduce((acc, experiment) => {
-          if (experiment.id === newExperiment.id) {
-            return [...acc, { ...newExperiment }];
-          }
-
-          return [...acc];
-        }, [] as IExperiment[]);
+        return previousData.map((experiment) =>
+          experiment.id === newExperiment.id ? { ...newExperiment } : experiment,
+        );
       });
     },
     onError: (_err, _newExperiment, context) => {

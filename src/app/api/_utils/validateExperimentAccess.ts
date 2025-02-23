@@ -4,11 +4,7 @@ import { APIErrorResponse } from "@/core/types/api";
 import { MESSAGES } from "@/presentation/constants/messages";
 import ExperimentRepository from "@/core/repositories/Experiment/ExperimentRepository";
 
-export async function validateExperimentAccess(req: Request, sessionUser: { id: string }) {
-  const url = new URL(req.url);
-  // Extract ID from URL, TODO, maybe find a better way to do it
-  const experimentId = url.pathname.split("/").pop();
-
+export async function validateExperimentAccess(experimentId: string | undefined, userId: string) {
   if (!experimentId) {
     return NextResponse.json<APIErrorResponse>(
       { success: false, error: MESSAGES.InvalidExperiment },
@@ -26,7 +22,7 @@ export async function validateExperimentAccess(req: Request, sessionUser: { id: 
   }
 
   const userAuthorizedForExperiment = await AccessControlService.isUserAuthorizedForExperiment(
-    sessionUser?.id,
+    userId,
     experimentId,
   );
 
@@ -37,5 +33,5 @@ export async function validateExperimentAccess(req: Request, sessionUser: { id: 
     );
   }
 
-  return { experimentId, experiment };
+  return { experiment };
 }

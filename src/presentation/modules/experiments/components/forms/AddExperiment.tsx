@@ -91,7 +91,7 @@ export function AddExperiment({ onError, onComplete }: Props) {
         <FormError message={errors.name?.message} />
 
         {/* Description */}
-        <Textarea {...register("description")} placeholder="Description (optional)" />
+        <Textarea {...register("description")} rows={8} placeholder="Description (optional)" />
 
         {/* Field (Category) */}
         <Select

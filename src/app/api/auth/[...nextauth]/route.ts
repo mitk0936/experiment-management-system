@@ -1,13 +1,13 @@
 import NextAuth, { SessionStrategy } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { FirestoreUserRepository } from "@/core/repositories/User/FirestoreUserRepository";
 import { logError } from "@/core/utils/logger";
 import { PasswordService } from "@/core/services/PasswordService";
-
-const repository = new FirestoreUserRepository();
+import { UserRepository } from "@/core/repositories/User/UserRepository";
 
 export const authOptions = {
-  session: { strategy: "jwt" as SessionStrategy },
+  session: {
+    strategy: "jwt" as SessionStrategy,
+  },
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -18,7 +18,7 @@ export const authOptions = {
         }
 
         try {
-          const user = await repository.getUserByEmail(credentials.email);
+          const user = await UserRepository.getUserByEmail(credentials.email);
           if (!user) {
             return null;
           }
