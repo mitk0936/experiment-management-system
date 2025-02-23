@@ -26,15 +26,21 @@ import Modal from "@/presentation/common/components/composite/Modal";
 import { UpdateExperiment } from "./forms/UpdateExperiment";
 import { useSearchableTable } from "@/presentation/common/hooks/useSearchableTable";
 import { Input } from "@/presentation/common/components/ui/input";
+import { ManageAttachments } from "./ManageAttachments";
 
 export function ExperimentsTable() {
   const { data: session } = useSession();
 
-  // Delete Confimation State
+  // Delete Confimation Selected State
   const [requestedToDeleteItemId, setRequestedToDeleteItemId] = useState<string | null>(null);
 
-  // Update Experiment State
+  // Update Experiment Selected State
   const [requestedToUpdateItemId, setRequestedToUpdateItemId] = useState<string | null>(null);
+
+  // Manage Attachments Selected State
+  const [requestToManageAttachmentsItemId, setRequestToManageAttachmentsItemId] = useState<
+    string | null
+  >(null);
 
   const { data: experiments = [], isLoading } = useExperiments();
   const { mutate: deleteExperiment } = useDeleteExperiment();
@@ -77,6 +83,16 @@ export function ExperimentsTable() {
                 toast.success("Experiment was updated.");
               }}
             />
+          )}
+        </Modal>
+        {/* Manage Attachments Dialog */}
+        <Modal
+          open={Boolean(requestToManageAttachmentsItemId)}
+          onOpenChange={() => setRequestToManageAttachmentsItemId(null)}
+          title="Manage Experiment Attachments"
+        >
+          {requestToManageAttachmentsItemId && (
+            <ManageAttachments experimentId={requestToManageAttachmentsItemId} />
           )}
         </Modal>
         {/* Confirm Delete Dialog */}
@@ -156,9 +172,14 @@ export function ExperimentsTable() {
                             <Pencil className="w-4 h-4 mr-2" />
                             Edit Info
                           </DropdownMenuItem>
-                          <DropdownMenuItem disabled={!userCanAccessExperiment}>
+                          <DropdownMenuItem
+                            disabled={!userCanAccessExperiment}
+                            onClick={() => {
+                              setRequestToManageAttachmentsItemId(exp.id as string);
+                            }}
+                          >
                             <File className="w-4 h-4 mr-2" />
-                            Attachments
+                            Manage Attachments
                           </DropdownMenuItem>
                           <DropdownMenuItem
                             disabled={!userCanAccessExperiment}

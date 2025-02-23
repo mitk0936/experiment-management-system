@@ -3,7 +3,7 @@ import { Experiment } from "@/core/entities/Experiment";
 import { APIResponse } from "@/core/types/api";
 
 export function useExperiments() {
-  return useQuery<Experiment[], APIResponse<any>>({
+  return useQuery<Experiment[], APIResponse<Experiment[]>>({
     queryKey: ["experiments"],
     queryFn: async () => {
       const res = await fetch("/api/experiment");
