@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { APIResponse } from "@/core/types/api";
 import { AttachmentsMutationContext } from "./types";
-import { IAttachmentMetaData } from "@/core/entities/Attachment";
+import { IAttachmentMetaData } from "@/core/types/entities";
 
 export function useDeleteAttachment(experimentId: string) {
   const queryClient = useQueryClient();

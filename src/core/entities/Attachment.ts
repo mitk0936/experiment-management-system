@@ -1,16 +1,5 @@
-import { randomUUID } from "crypto";
-
-export interface IAttachmentMetaData {
-  id: string;
-  experimentId: string;
-  filename: string;
-  mimeType: string;
-  dateUploaded: string;
-}
-
-export interface IAttachment extends IAttachmentMetaData {
-  fileData: string;
-}
+import { randomUUID } from "../utils/uuid";
+import { IAttachment, IAttachmentMetaData } from "../types/entities";
 
 export class Attachment implements IAttachment {
   id: string;

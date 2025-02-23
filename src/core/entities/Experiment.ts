@@ -1,14 +1,5 @@
-import { randomUUID } from "node:crypto";
-
-export interface IExperiment {
-  id: string;
-  name: string;
-  description?: string;
-  field: ExperimentField;
-  status: ExperimentStatus;
-  userId: string; // ID of the user who published the experiment
-  dateCreated: string;
-}
+import { randomUUID } from "../utils/uuid";
+import { ExperimentField, ExperimentStatus, IExperiment } from "../types/entities";
 
 export class Experiment implements IExperiment {
   id: string;
@@ -44,17 +35,4 @@ export class Experiment implements IExperiment {
       dateCreated: this.dateCreated,
     };
   }
-}
-
-export enum ExperimentField {
-  Physics = "Physics",
-  Chemistry = "Chemistry",
-  Biology = "Biology",
-  Engineering = "Engineering",
-}
-
-export enum ExperimentStatus {
-  Pending = "Pending",
-  Ongoing = "Ongoing",
-  Completed = "Completed",
 }

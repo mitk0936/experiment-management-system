@@ -1,8 +1,8 @@
-import { IExperiment } from "@/core/entities/Experiment";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ExperimentFormData } from "@/core/validation/experiment/schema";
 import { APIResponse } from "@/core/types/api";
 import { ExperimentsMutationContext } from "./types";
+import { IExperiment } from "@/core/types/entities";
 
 export function useAddExperiment() {
   const queryClient = useQueryClient();

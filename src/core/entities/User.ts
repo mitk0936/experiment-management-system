@@ -1,11 +1,5 @@
-import { randomUUID } from "crypto";
-
-export interface IUser {
-  id: string;
-  email: string;
-  name: string;
-  password: string;
-}
+import { randomUUID } from "../utils/uuid";
+import { IUser } from "../types/entities";
 
 export class User implements IUser {
   id: string;

@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { ExperimentField, ExperimentStatus } from "@/core/entities/Experiment";
 import { MESSAGES } from "@/presentation/constants/messages";
+import { ExperimentField, ExperimentStatus } from "@/core/types/entities";
 
 export const experimentSchema = z.object({
   name: z.string().trim().min(3, { message: MESSAGES.NameMustBe3OrMoreChars }),

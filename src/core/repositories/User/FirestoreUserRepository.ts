@@ -1,7 +1,8 @@
 import { IUserRepository } from "./IUserRepository";
-import { IUser, User } from "@/core/entities/User";
+import { User } from "@/core/entities/User";
 import { firestoreDb as db } from "@/core/db/index";
 import { CollectionReference } from "@google-cloud/firestore";
+import { IUser } from "@/core/types/entities";
 
 export class FirestoreUserRepository implements IUserRepository {
   private usersCollection = db.collection("users") as CollectionReference<IUser>;

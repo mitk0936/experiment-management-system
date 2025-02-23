@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    network_mode: "host"
+    container_name: experiments-crud-nextjs-app
+    env_file: ./.env
+    depends_on:
+      - firestore
+    command: ["npm", "run", "start"]
+
+  firestore:
+    network_mode: "host"
+    image: google/cloud-sdk:latest
+    container_name: firestore-emulator
+    command: ["gcloud", "emulators", "firestore", "start", "--host-port=0.0.0.0:9999"]

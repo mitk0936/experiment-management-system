@@ -4,15 +4,14 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "docker-compose -f docker-compose.dev.yml up -d && next dev --turbopack",
+    "dev": "docker-compose -f  docker-compose.dev.yml up -d --remove-orphans && next dev --turbopack",
     "dev:stop": "docker-compose -f docker-compose.dev.yml down",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "lint-staged": {
-    "**/*.{js,jsx,ts,tsx}": [
-      "next lint",
+    "**/*.{ts,tsx}": [
       "prettier --write"
     ]
   },

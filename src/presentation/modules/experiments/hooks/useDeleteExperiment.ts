@@ -1,6 +1,6 @@
-import { IExperiment } from "@/core/entities/Experiment";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { APIResponse } from "@/core/types/api";
+import { IExperiment } from "@/core/types/entities";
 
 type MutationContext = { previousData: IExperiment[] | undefined };
 

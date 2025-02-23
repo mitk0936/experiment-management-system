@@ -1,7 +1,8 @@
 import { IExperimentRepository } from "./IExperimentRepository";
 import { CollectionReference } from "@google-cloud/firestore";
 import { firestoreDb as db } from "@/core/db/index";
-import { Experiment, IExperiment } from "@/core/entities/Experiment";
+import { Experiment } from "@/core/entities/Experiment";
+import { IExperiment } from "@/core/types/entities";
 
 export class FirestoreExperimentRepository implements IExperimentRepository {
   private collection = db.collection("experiments") as CollectionReference<IExperiment>;

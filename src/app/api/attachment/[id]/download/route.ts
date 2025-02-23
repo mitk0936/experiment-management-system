@@ -5,12 +5,14 @@ import { MESSAGES } from "@/presentation/constants/messages";
 import { NextResponse } from "next/server";
 
 type AttachmentRequestParams = {
-  params: { id: string };
+  params: Promise<{
+    id: string;
+  }>;
 };
 
-export const GET = withAuth(async function (_req: Request, { params }: AttachmentRequestParams) {
+export const GET = withAuth(async function (_req: Request, context: AttachmentRequestParams) {
   try {
-    const { id: attachmentId } = await params;
+    const { id: attachmentId } = await context.params;
 
     const attachment = await AttachmentRepository.getById(attachmentId);
 

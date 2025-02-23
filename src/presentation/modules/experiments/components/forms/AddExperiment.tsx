@@ -15,7 +15,7 @@ import {
 } from "@/presentation/common/components/ui/select";
 import { useAddExperiment } from "@/presentation/modules/experiments/hooks/useAddExperiment";
 import { FormWrapper } from "@/presentation/common/components/composite/FormWrapper";
-import { ExperimentField, ExperimentStatus } from "@/core/entities/Experiment";
+import { ExperimentField, ExperimentStatus } from "@/core/types/entities";
 import { ExperimentFormData, experimentSchema } from "@/core/validation/experiment/schema";
 import { FormError } from "@/presentation/common/components/composite/FormError";
 import { useState } from "react";

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { IExperiment } from "@/core/entities/Experiment";
 import { APIResponse } from "@/core/types/api";
+import { IExperiment } from "@/core/types/entities";
 
 export function useExperiments() {
   return useQuery<IExperiment[], APIResponse<IExperiment[]>>({
