@@ -23,8 +23,8 @@ import { useUpdateExperiment } from "../../hooks/useUpdateExperiment";
 
 interface Props {
   experiment: IExperiment;
-  onError: Function;
-  onComplete: Function;
+  onError: () => void;
+  onComplete: () => void;
 }
 
 export function UpdateExperiment({ experiment, onError, onComplete }: Props) {

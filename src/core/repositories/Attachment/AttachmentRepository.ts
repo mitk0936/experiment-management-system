@@ -1,3 +1,3 @@
 import { FirestoreAttachmentRepository } from "./FirestoreAttachmentRepository";
 
-export default new FirestoreAttachmentRepository();
+export const AttachmentRepository = new FirestoreAttachmentRepository();

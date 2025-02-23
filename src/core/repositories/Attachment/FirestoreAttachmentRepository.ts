@@ -32,6 +32,21 @@ export class FirestoreAttachmentRepository implements IAttachmentRepository {
   async delete(id: string): Promise<void> {
     await this.attachmentsCollection.doc(id).delete();
   }
+
+  async deleteByExperimentId(experimentId: string): Promise<void> {
+    const snapshot = await this.attachmentsCollection
+      .where("experimentId", "==", experimentId)
+      .get();
+
+    if (snapshot.empty) {
+      return;
+    }
+
+    const batch = db.batch();
+    snapshot.docs.forEach((doc) => batch.delete(doc.ref));
+
+    await batch.commit();
+  }
 }
 
 export const attachmentsRepository = new FirestoreAttachmentRepository();

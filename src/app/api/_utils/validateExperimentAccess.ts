@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { AccessControlService } from "@/core/services/AccessControlService";
 import { APIErrorResponse } from "@/core/types/api";
 import { MESSAGES } from "@/presentation/constants/messages";
-import ExperimentRepository from "@/core/repositories/Experiment/ExperimentRepository";
+import { ExperimentRepository } from "@/core/repositories/Experiment/ExperimentRepository";
 
 export async function validateExperimentAccess(experimentId: string | undefined, userId: string) {
   if (!experimentId) {

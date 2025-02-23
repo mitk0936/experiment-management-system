@@ -1,5 +1,4 @@
-import ExperimentRepository from "../repositories/Experiment/ExperimentRepository";
-import { UserRepository } from "../repositories/User/UserRepository";
+import { ExperimentRepository } from "../repositories/Experiment/ExperimentRepository";
 import { logError } from "../utils/logger";
 
 export class AccessControlService {

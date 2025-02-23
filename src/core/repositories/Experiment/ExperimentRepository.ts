@@ -1,3 +1,3 @@
 import { FirestoreExperimentRepository } from "./FirestoreExperimentRepository";
 
-export default new FirestoreExperimentRepository();
+export const ExperimentRepository = new FirestoreExperimentRepository();

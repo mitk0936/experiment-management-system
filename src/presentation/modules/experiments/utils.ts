@@ -1,8 +1,8 @@
 import { IAttachmentMetaData } from "@/core/entities/Attachment";
 
 interface DownloadAttachmentOptions {
-  onSuccess: Function;
-  onError: Function;
+  onSuccess: () => void;
+  onError: (err: string) => void;
 }
 
 export async function downloadAttachment(
@@ -34,7 +34,7 @@ export async function downloadAttachment(
     document.body.removeChild(a);
 
     onSuccess();
-  } catch (error) {
+  } catch {
     onError("Download failed");
   }
 }

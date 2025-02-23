@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 import { MESSAGES } from "@/presentation/constants/messages";
 import { logError } from "@/core/utils/logger";
 import { experimentSchema } from "@/core/validation/experiment/schema";
-import ExperimentRepository from "@/core/repositories/Experiment/ExperimentRepository";
+import { ExperimentRepository } from "@/core/repositories/Experiment/ExperimentRepository";
 import { extractZodErrors } from "@/core/validation/utils";
 import { APIErrorResponse, APIResponse } from "@/core/types/api";
 import { Experiment, IExperiment } from "@/core/entities/Experiment";

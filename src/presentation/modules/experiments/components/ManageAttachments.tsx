@@ -8,8 +8,7 @@ import { toast } from "sonner";
 import { MESSAGES } from "@/presentation/constants/messages";
 import { FormError } from "@/presentation/common/components/composite/FormError";
 import { useAttachments } from "../hooks/useAttachments";
-import { Download, Loader2, Trash2 } from "lucide-react";
-import { Separator } from "@radix-ui/react-separator";
+import { Loader2, Trash2 } from "lucide-react";
 import { ConfirmDialog } from "@/presentation/common/components/composite/ConfirmDialog";
 import { useDeleteAttachment } from "../hooks/useDeleteAttachment";
 import { Card, CardContent, CardHeader, CardTitle } from "@/presentation/common/components/ui/card";
@@ -24,11 +23,7 @@ export function ManageAttachments({ experimentId }: { experimentId: string }) {
   const { mutate: uploadAttachment, isPending: isUploading } = useAddAttachment();
   const { mutate: deleteAttachment, isPending: isDeleting } = useDeleteAttachment(experimentId);
 
-  const {
-    data: attachments = [],
-    isLoading: isLoadingAttachments,
-    error,
-  } = useAttachments(experimentId);
+  const { data: attachments = [], isLoading: isLoadingAttachments } = useAttachments(experimentId);
 
   const isProcessingRequests = Boolean(isLoadingAttachments || isDeleting || isUploading);
 

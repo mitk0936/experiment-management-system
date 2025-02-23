@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { MESSAGES } from "@/presentation/constants/messages";
 import { logError } from "@/core/utils/logger";
-import ExperimentRepository from "@/core/repositories/Experiment/ExperimentRepository";
+import { ExperimentRepository } from "@/core/repositories/Experiment/ExperimentRepository";
 import { APIErrorResponse, APIResponse } from "@/core/types/api";
 import { withAuth } from "../../_utils/withAuth";
 import { validateExperimentAccess } from "../../_utils/validateExperimentAccess";
@@ -10,6 +10,7 @@ import { extractZodErrors } from "@/core/validation/utils";
 import { IExperiment } from "@/core/entities/Experiment";
 import { authOptions } from "../../auth/[...nextauth]/route";
 import { getServerSession, Session } from "next-auth";
+import { AttachmentRepository } from "@/core/repositories/Attachment/AttachmentRepository";
 
 type ExperimentRequestParams = {
   params: {
@@ -45,7 +46,7 @@ export const PATCH = withAuth(async function (
 
     const updatedExperimentData = await ExperimentRepository.update(
       validateExperimentAccessResponse.experiment.id,
-      { ...body },
+      { ...validation.data },
     );
     return NextResponse.json(
       {
@@ -82,8 +83,15 @@ export const DELETE = withAuth(async function (
     }
 
     await ExperimentRepository.delete(validateExperimentAccessResponse.experiment.id);
+    await AttachmentRepository.deleteByExperimentId(validateExperimentAccessResponse.experiment.id);
 
-    return NextResponse.json({ success: true, data: null }, { status: 200 });
+    return NextResponse.json(
+      {
+        success: true,
+        data: null,
+      },
+      { status: 200 },
+    );
   } catch (error) {
     logError("ISE when trying to delete an experiment", error, "DELETE /api/experiment/:id");
 

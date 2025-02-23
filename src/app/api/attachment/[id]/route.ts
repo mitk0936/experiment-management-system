@@ -6,7 +6,7 @@ import { validateExperimentAccess } from "../../_utils/validateExperimentAccess"
 import { authOptions } from "../../auth/[...nextauth]/route";
 import { logError } from "@/core/utils/logger";
 import { MESSAGES } from "@/presentation/constants/messages";
-import AttachmentRepository from "@/core/repositories/Attachment/AttachmentRepository";
+import { AttachmentRepository } from "@/core/repositories/Attachment/AttachmentRepository";
 
 type AttachmentRequestParams = {
   params: {

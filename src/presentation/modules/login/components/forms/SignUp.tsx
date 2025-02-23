@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/presentation/common/components/ui/input";
 import { Button } from "@/presentation/common/components/ui/button";
 import { MESSAGES } from "@/presentation/constants/messages";
-import { signUp } from "../../../../../app/api/auth/_actions/signup";
+import { signUp } from "../../../../../app/api/auth/signup";
 import { SignUpFormData, signUpFormSchema } from "../../../../../core/validation/signup/schema";
 import { TypographyH2 } from "@/presentation/common/components/ui/typography";
 import { FormWrapper } from "@/presentation/common/components/composite/FormWrapper";
