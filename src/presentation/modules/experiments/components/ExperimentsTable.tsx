@@ -27,8 +27,8 @@ import { UpdateExperiment } from "./forms/UpdateExperiment";
 import { useSearchableTable } from "@/presentation/common/hooks/useSearchableTable";
 import { Input } from "@/presentation/common/components/ui/input";
 import { ManageAttachments } from "./ManageAttachments";
-import { IExperiment } from "@/core/entities/Experiment";
 import { ViewExperimentDetails } from "./ViewExperimentDetails";
+import { IExperiment } from "@/core/types/entities";
 
 export function ExperimentsTable() {
   const { data: session } = useSession();

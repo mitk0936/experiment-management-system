@@ -1,4 +1,4 @@
-import { IAttachmentMetaData } from "@/core/entities/Attachment";
+import { IAttachmentMetaData } from "@/core/types/entities";
 
 interface DownloadAttachmentOptions {
   onSuccess: () => void;

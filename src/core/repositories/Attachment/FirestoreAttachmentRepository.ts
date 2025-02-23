@@ -1,7 +1,8 @@
 import { IAttachmentRepository } from "./IAttachmentRepository";
-import { IAttachment, Attachment } from "@/core/entities/Attachment";
+import { Attachment } from "@/core/entities/Attachment";
 import { firestoreDb as db } from "@/core/db/index";
 import { CollectionReference } from "@google-cloud/firestore";
+import { IAttachment } from "@/core/types/entities";
 
 export class FirestoreAttachmentRepository implements IAttachmentRepository {
   private attachmentsCollection = db.collection("attachments") as CollectionReference<IAttachment>;

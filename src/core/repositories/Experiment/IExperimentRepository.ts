@@ -1,4 +1,4 @@
-import { IExperiment } from "../../entities/Experiment";
+import { IExperiment } from "@/core/types/entities";
 
 export interface IExperimentRepository {
   getById(experimentId: string): Promise<IExperiment | null>;

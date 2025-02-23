@@ -1,5 +1,4 @@
-import { IAttachmentMetaData } from "@/core/entities/Attachment";
-import { IExperiment } from "@/core/entities/Experiment";
+import { IAttachmentMetaData, IExperiment } from "@/core/types/entities";
 
 export type ExperimentsMutationContext = { previousData: IExperiment[] | undefined };
 

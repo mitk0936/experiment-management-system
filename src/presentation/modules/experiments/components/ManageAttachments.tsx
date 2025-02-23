@@ -13,7 +13,7 @@ import { ConfirmDialog } from "@/presentation/common/components/composite/Confir
 import { useDeleteAttachment } from "../hooks/useDeleteAttachment";
 import { Card, CardContent, CardHeader, CardTitle } from "@/presentation/common/components/ui/card";
 import { downloadAttachment } from "../utils";
-import { IAttachmentMetaData } from "@/core/entities/Attachment";
+import { IAttachmentMetaData } from "@/core/types/entities";
 
 export function ManageAttachments({ experimentId }: { experimentId: string }) {
   const [fileInputError, setFileInputError] = useState(MESSAGES.Empty);

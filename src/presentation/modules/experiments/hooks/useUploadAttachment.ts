@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { APIResponse } from "@/core/types/api";
-import { IAttachmentMetaData } from "@/core/entities/Attachment";
+import { IAttachmentMetaData } from "@/core/types/entities";
 
 type MutationContext = { previousData: IAttachmentMetaData[] | undefined };
 

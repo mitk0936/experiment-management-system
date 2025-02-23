@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { APIResponse } from "@/core/types/api";
-import { IAttachmentMetaData } from "@/core/entities/Attachment";
+import { IAttachmentMetaData } from "@/core/types/entities";
 
 export function useAttachments(experimentId: string) {
   return useQuery<IAttachmentMetaData[], APIResponse<IAttachmentMetaData[]>>({

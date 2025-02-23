@@ -1,15 +1,14 @@
 "use client";
 
-import { IExperiment } from "@/core/entities/Experiment";
 import { Card, CardContent, CardHeader, CardTitle } from "@/presentation/common/components/ui/card";
 import { Loader2 } from "lucide-react";
 import { useAttachments } from "../hooks/useAttachments";
 import { formatUserLocaleDate } from "@/presentation/common/lib/date";
 import { Button } from "@/presentation/common/components/ui/button";
 import { useCallback } from "react";
-import { IAttachmentMetaData } from "@/core/entities/Attachment";
 import { downloadAttachment } from "../utils";
 import { toast } from "sonner";
+import { IAttachmentMetaData, IExperiment } from "@/core/types/entities";
 
 export function ViewExperimentDetails({ experiment }: { experiment: IExperiment }) {
   const { data = [], isLoading, error } = useAttachments(experiment.id);

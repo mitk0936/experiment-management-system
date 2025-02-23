@@ -1,4 +1,4 @@
-import { IAttachment } from "../../entities/Attachment";
+import { IAttachment } from "@/core/types/entities";
 
 export interface IAttachmentRepository {
   getById(attachmentId: string): Promise<IAttachment | null>;

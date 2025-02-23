@@ -1,5 +1,5 @@
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/app/api/auth/[...nextauth]/authOptions";
 import { redirect } from "next/navigation";
 import React, { PropsWithChildren } from "react";
 import { SidebarProvider, SidebarTrigger } from "@/presentation/common/components/ui/sidebar";
