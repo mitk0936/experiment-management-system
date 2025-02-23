@@ -1,14 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
-import { Experiment } from "@/core/entities/Experiment";
+import { IExperiment } from "@/core/entities/Experiment";
 import { APIResponse } from "@/core/types/api";
 
 export function useExperiments() {
-  return useQuery<Experiment[], APIResponse<Experiment[]>>({
+  return useQuery<IExperiment[], APIResponse<IExperiment[]>>({
     queryKey: ["experiments"],
     queryFn: async () => {
       const res = await fetch("/api/experiment");
 
-      const responseData: APIResponse<Experiment[]> = await res.json();
+      const responseData: APIResponse<IExperiment[]> = await res.json();
 
       if (!responseData.success) {
         throw responseData;

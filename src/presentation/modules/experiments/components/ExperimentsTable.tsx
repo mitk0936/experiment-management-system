@@ -18,7 +18,7 @@ import {
   DropdownMenuTrigger,
 } from "@/presentation/common/components/ui/dropdown-menu";
 import { ConfirmDialog } from "@/presentation/common/components/composite/ConfirmDialog";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useDeleteExperiment } from "../hooks/useDeleteExperiment";
 import { toast } from "sonner";
 import { useSession } from "next-auth/react";
@@ -27,20 +27,11 @@ import { UpdateExperiment } from "./forms/UpdateExperiment";
 import { useSearchableTable } from "@/presentation/common/hooks/useSearchableTable";
 import { Input } from "@/presentation/common/components/ui/input";
 import { ManageAttachments } from "./ManageAttachments";
+import { IExperiment } from "@/core/entities/Experiment";
+import { ViewExperimentDetails } from "./ViewExperimentDetails";
 
 export function ExperimentsTable() {
   const { data: session } = useSession();
-
-  // Delete Confimation Selected State
-  const [requestedToDeleteItemId, setRequestedToDeleteItemId] = useState<string | null>(null);
-
-  // Update Experiment Selected State
-  const [requestedToUpdateItemId, setRequestedToUpdateItemId] = useState<string | null>(null);
-
-  // Manage Attachments Selected State
-  const [requestToManageAttachmentsItemId, setRequestToManageAttachmentsItemId] = useState<
-    string | null
-  >(null);
 
   const { data: experiments = [], isLoading } = useExperiments();
   const { mutate: deleteExperiment } = useDeleteExperiment();
@@ -52,7 +43,18 @@ export function ExperimentsTable() {
     "description",
   ]);
 
-  const experimentToEdit = experiments.find((exp) => exp.id === requestedToUpdateItemId);
+  // View Details Selected State
+  const [experimentToViewDetails, setExperimentToViewDetails] = useState<IExperiment | null>(null);
+
+  // Update Experiment Selected State
+  const [experimentToUpdate, setExperimentToUpdate] = useState<IExperiment | null>(null);
+
+  // Manage Attachments Selected State
+  const [experimentToManageAttachments, setExperimentToManageAttachments] =
+    useState<IExperiment | null>(null);
+
+  // Delete Confimation Selected State
+  const [experimentToDelete, setExperimentToDelete] = useState<IExperiment | null>(null);
 
   // TODO: Split the render into smaller components
   return (
@@ -66,42 +68,55 @@ export function ExperimentsTable() {
         className="w-full max-w-sm my-5"
       />
       <div className="border rounded-lg overflow-hidden shadow-sm">
+        {/* View Details Experiment Dialog */}
+        <Modal
+          open={Boolean(experimentToViewDetails)}
+          onOpenChange={() => setExperimentToViewDetails(null)}
+          title="View Details for Experiment"
+        >
+          {experimentToViewDetails && (
+            <ViewExperimentDetails experiment={experimentToViewDetails} />
+          )}
+        </Modal>
+
         {/* Update Experiment Dialog */}
         <Modal
-          open={Boolean(requestedToUpdateItemId)}
-          onOpenChange={() => setRequestedToUpdateItemId(null)}
+          open={Boolean(experimentToUpdate)}
+          onOpenChange={() => setExperimentToUpdate(null)}
           title="Update Experiment"
         >
-          {experimentToEdit && (
+          {experimentToUpdate && (
             <UpdateExperiment
-              experiment={experimentToEdit}
+              experiment={experimentToUpdate}
               onError={() => {
                 toast.error("Failed to update the experiment.");
               }}
               onComplete={() => {
-                setRequestedToUpdateItemId(null);
+                setExperimentToUpdate(null);
                 toast.success("Experiment was updated.");
               }}
             />
           )}
         </Modal>
+
         {/* Manage Attachments Dialog */}
         <Modal
-          open={Boolean(requestToManageAttachmentsItemId)}
-          onOpenChange={() => setRequestToManageAttachmentsItemId(null)}
+          open={Boolean(experimentToManageAttachments)}
+          onOpenChange={() => setExperimentToManageAttachments(null)}
           title="Manage Experiment Attachments"
         >
-          {requestToManageAttachmentsItemId && (
-            <ManageAttachments experimentId={requestToManageAttachmentsItemId} />
+          {experimentToManageAttachments && (
+            <ManageAttachments experimentId={experimentToManageAttachments.id} />
           )}
         </Modal>
+
         {/* Confirm Delete Dialog */}
         <ConfirmDialog
-          open={Boolean(requestedToDeleteItemId)}
-          onOpenChange={() => setRequestedToDeleteItemId(null)}
+          open={Boolean(experimentToDelete)}
+          onOpenChange={() => setExperimentToDelete(null)}
           onConfirm={() => {
             deleteExperiment(
-              { id: requestedToDeleteItemId as string },
+              { id: experimentToDelete?.id as string },
               {
                 onSuccess: () => {
                   toast.success("Experiment was deleted.");
@@ -113,6 +128,7 @@ export function ExperimentsTable() {
             );
           }}
         />
+
         {/* Experiments Table */}
         <Table>
           <TableHeader>
@@ -159,14 +175,18 @@ export function ExperimentsTable() {
                         <DropdownMenuContent>
                           <DropdownMenuLabel>Experiment Actions</DropdownMenuLabel>
                           <DropdownMenuSeparator />
-                          <DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() => {
+                              setExperimentToViewDetails(exp);
+                            }}
+                          >
                             <Eye className="w-4 h-4 mr-2" />
                             View Details
                           </DropdownMenuItem>
                           <DropdownMenuItem
                             disabled={!userCanAccessExperiment}
                             onClick={() => {
-                              setRequestedToUpdateItemId(exp.id as string);
+                              setExperimentToUpdate(exp);
                             }}
                           >
                             <Pencil className="w-4 h-4 mr-2" />
@@ -175,7 +195,7 @@ export function ExperimentsTable() {
                           <DropdownMenuItem
                             disabled={!userCanAccessExperiment}
                             onClick={() => {
-                              setRequestToManageAttachmentsItemId(exp.id as string);
+                              setExperimentToManageAttachments(exp);
                             }}
                           >
                             <File className="w-4 h-4 mr-2" />
@@ -184,7 +204,7 @@ export function ExperimentsTable() {
                           <DropdownMenuItem
                             disabled={!userCanAccessExperiment}
                             onClick={() => {
-                              setRequestedToDeleteItemId(exp.id as string);
+                              setExperimentToDelete(exp);
                             }}
                           >
                             <Trash2 className="w-4 h-4 mr-2" />
