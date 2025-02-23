@@ -35,7 +35,7 @@ This project is fully **Dockerized**, meaning you can run everything in isolated
 ### **Start the Containers**
 
 ```sh
-docker-compose up --build
+docker-compose up --build --remove-orphans
 ```
 
 If you encounter issues, ensure that no other processes are using ports 3000 or 9999 on your machine. Additionally, stop any previously running Docker Compose instances before restarting:
