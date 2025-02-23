@@ -45,6 +45,13 @@ docker-compose down
 docker-compose up --build
 ```
 
+If you encounter issues, ensure that no other processes are using ports 3000 or 9999 on your machine. Additionally, stop any previously running Docker Compose instances before restarting:
+
+```sh
+docker-compose down
+docker-compose up --build
+```
+
 **This will:**
 
 - Run the Next.js app in a container (`http://localhost:3000`)
